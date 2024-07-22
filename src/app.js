@@ -4,17 +4,20 @@ require('dotenv').config();
 
 const port = process.env.PORT || 8080;
 const path = require('path');
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Listing = require('./models/listing');
 require('./db')();
 
 
+// Middlewares
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-// Middlewares
+app.use(express.static(path.join(__dirname, 'public'))); // This is for serving static files like css, images, etc.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method')); // This is for using PUT and DELETE requests
+app.engine('ejs', ejsMate); // This is for using ejs-mate as the view engine
 
 
 app.get('/', (req, res) => {
