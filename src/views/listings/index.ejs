@@ -1,12 +1,24 @@
-<% layout('/layouts/boilerplate') %>  <!-- By Ejs-Mate-->
-<body>
-    <h3>All Lisitngs</h3>
-    <!-- <form action="/listings/new">
-        <button>Create New Listing</button>
-    </form> -->
-    <ul>
-        <% for (const listing of allListings) { %>
-            <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
-        <% } %>
-    </ul>
-</body>
+<% layout('/layouts/boilerplate') %> <!-- By Ejs-Mate-->
+
+    <body>
+        <h3>All Listings</h3>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <% for (const listing of allListings) { %>
+                <a href="/listings/<%= listing._id %>" class="listing-tile">
+                    <div class="card" style="width: 20rem;">
+                        <img src="<%= listing.image %>" class="card-img-top" alt="...">
+                        <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b>
+                                    <%= listing.title %>
+                                </b>
+                                <br>
+                                Rs <%= listing.price.toLocaleString('en-PK') %> / Night
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+    </body>
