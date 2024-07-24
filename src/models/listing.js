@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const review = require('./review');
 const Schema = mongoose.Schema;
 const defaultImag = 'https://images.unsplash.com/photo-1544894079-e81a9eb1da8b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
@@ -28,6 +29,12 @@ const listingSchema = new Schema({
         type: String,
         required: true
     },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ],
 });
 
 module.exports = mongoose.model('Listing', listingSchema, 'Listings');

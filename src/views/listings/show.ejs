@@ -3,11 +3,10 @@
     <div class="row">
         <div class="col-8 offset-2">
             <br>
-            <h2>Listing Details: </h2>
+            <h2><%= listing.title %></h2>
             <div class="card">
                 <img src="<%= listing.image %>" class="card-img-top" alt="listing-img">
                 <div class="card-body mt-2">
-                    <h5 class="card-title"><%= listing.title %></h5>
                     <p class="card-text">
                         <%= listing.description %>
                         <br>
@@ -26,6 +25,17 @@
                 </form>
             </div>
             <br>
+        </div>
+        <div class="col-8 offset-2">
+            <hr>
+            <h3>Leave a Review</h3>
+            <form method="POST" action="/listings/<%= listing.id %>/reviews">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" min="1" max="5" class="form-range" id="rating" name="review[rating]">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5"></textarea>
+                <button class="btn btn-outline-dark mt-3 mb-3">Submit</button>
+            </form>
         </div>
     </div>
 </body>
