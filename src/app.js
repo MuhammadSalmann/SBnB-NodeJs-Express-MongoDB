@@ -12,6 +12,7 @@ const Review = require('./models/review');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
 const validateListing = require('./middlewares/validateListing');
+const validateReview = require('./middlewares/validateReview');
 
 // Database Connection
 require('./db')();
@@ -53,7 +54,7 @@ app.get('/listings/new', (req, res) => {
 app.get('/listings/:id', wrapAsync(async (req, res) => {
     const {id} = req.params;
     // console.log(req.params.id);
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('reviews');
     res.render('listings/show.ejs', {listing});
 }));
 
@@ -89,7 +90,7 @@ app.delete('/listings/:id', wrapAsync(async (req, res) => {
 }));
 
 // Add Review Route
-app.post('/listings/:id/reviews', async (req, res) => {
+app.post('/listings/:id/reviews', validateReview, wrapAsync(async (req, res) => {
     //const {id} = req.params;
     const listing = await Listing.findById(req.params.id);
     const newReview = new Review(req.body.review);
@@ -97,7 +98,15 @@ app.post('/listings/:id/reviews', async (req, res) => {
     await newReview.save();
     await listing.save();
     res.redirect(`/listings/${listing._id}`);
-});
+}));
+
+// Delete Review Route
+app.delete('/listings/:id/reviews/:reviewId', wrapAsync(async (req, res) => {
+    const {id, reviewId} = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+}));
 
 // app.get('/testlistings', (req, res) => {
 //     const Listing = require('./models/listing');
