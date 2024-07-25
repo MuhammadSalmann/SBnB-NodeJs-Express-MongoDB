@@ -17,6 +17,10 @@ const listingShowRoute = wrapAsync(async (req, res) => {
     const {id} = req.params;
     // console.log(req.params.id);
     const listing = await Listing.findById(id).populate('reviews');
+    if(!listing){
+        req.flash('error', 'Cannot find that listing');
+        return res.redirect('/listings');
+    }
     res.render('listings/show.ejs', {listing});
 });
 
@@ -24,6 +28,10 @@ const listingShowRoute = wrapAsync(async (req, res) => {
 const listingEditPage = wrapAsync(async (req, res) => {
     const {id} = req.params;
     const listing = await Listing.findById(id);
+    if(!listing){
+        req.flash('error', 'Cannot find that listing');
+        return res.redirect('/listings');
+    }
     res.render('listings/edit.ejs', {listing});
 });
 
@@ -33,6 +41,7 @@ const createListing = wrapAsync(async (req, res, next) => {
     //console.log(req.body.listing);
     const listing = new Listing(req.body.listing);
     await listing.save();
+    req.flash('success', 'New Listing Added');
     res.redirect('/listings');
 });
 
@@ -41,6 +50,7 @@ const updateListing = wrapAsync(async (req, res) => {
     const {id} = req.params;
     //console.log({...req.body.listing});
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    req.flash('success', 'Listing Updated');
     res.redirect(`/listings/${id}`);
 });
 
@@ -48,6 +58,7 @@ const updateListing = wrapAsync(async (req, res) => {
 const deleteListing = wrapAsync(async (req, res) => {
     const {id} = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash('success', 'Listing Deleted');
     res.redirect('/listings');
 });
 

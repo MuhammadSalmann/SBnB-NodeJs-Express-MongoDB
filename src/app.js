@@ -7,6 +7,8 @@ const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
+const Session = require('express-session');
+const flash = require('connect-flash');
 
 // Routers
 const listingRouter = require('./routes/listing');
@@ -15,14 +17,28 @@ const reviewRouter = require('./routes/review');
 // Database Connection
 require('./db')();
 
+// Session Configuration
+const sessionConfig = {
+    secret:'Thisisasecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+};
+
 // Middlewares
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs'); // This is for setting the view engine
+app.set('views', path.join(__dirname, 'views')); // This is for setting the views directory
 app.use(express.static(path.join(__dirname, 'public'))); // This is for serving static files like css, images, etc.
-app.use(express.urlencoded({ extended: true })); 
-app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));  // This is for parsing form data
+app.use(express.json());  // This is for parsing JSON data
 app.use(methodOverride('_method')); // This is for using PUT and DELETE requests
 app.engine('ejs', ejsMate); // This is for using ejs-mate as the view engine
+app.use(Session(sessionConfig)); // This is for using sessions
+app.use(flash()); // This is for using flash messages
 
 // Middleware for logging requests
 app.use('/', (req, res, next) => {
@@ -33,6 +49,12 @@ app.use('/', (req, res, next) => {
 // Home Route
 app.get('/', (req, res) => {
     res.send('Hello World');
+});
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
 });
 
 // Routes
