@@ -9,10 +9,14 @@ const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
 const Session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 // Routers
 const listingRouter = require('./routes/listing');
 const reviewRouter = require('./routes/review');
+const userRouter = require('./routes/user');
 
 // Database Connection
 require('./db')();
@@ -39,6 +43,12 @@ app.use(methodOverride('_method')); // This is for using PUT and DELETE requests
 app.engine('ejs', ejsMate); // This is for using ejs-mate as the view engine
 app.use(Session(sessionConfig)); // This is for using sessions
 app.use(flash()); // This is for using flash messages
+app.use(passport.initialize()); // This is for initializing passport
+app.use(passport.session()); // This is for using passport sessions
+
+passport.use(new LocalStrategy(User.authenticate())); // This is for using passport-local strategy for authentication
+passport.serializeUser(User.serializeUser()); // This is for serializing the user
+passport.deserializeUser(User.deserializeUser()); // This is for deserializing the user
 
 // Middleware for logging requests
 app.use('/', (req, res, next) => {
@@ -60,6 +70,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/listings', listingRouter);
 app.use('/listings/:id/reviews', reviewRouter);
+app.use('/', userRouter);
 
 
 // 404 Route: For Wrong URL
