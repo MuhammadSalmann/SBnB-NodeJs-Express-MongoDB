@@ -6,8 +6,10 @@ const addReview = wrapAsync(async (req, res) => {
     //const {id} = req.params;
     const listing = await Listing.findById(req.params.id);
     const newReview = new Review(req.body.review);
+    newReview.author = req.user._id
     listing.reviews.push(newReview);
-    await newReview.save();
+    const review = await newReview.save();
+    console.log(review);
     await listing.save();
     req.flash('success', 'New Review Added');
     res.redirect(`/listings/${listing._id}`);

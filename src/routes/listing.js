@@ -3,6 +3,7 @@ const listingRouter = express.Router();
 const validateListing = require('../middlewares/validateListing');
 const {listingIndexRoute, listingNewRoute, listingShowRoute, listingEditPage, createListing, updateListing, deleteListing} = require('../controllers/listingController');
 const { isLoggedIn } = require('../middlewares/isLoggedIn');
+const isOwner = require('../middlewares/isOwner');
 
 //Index Route
 listingRouter.get('/', listingIndexRoute);
@@ -14,15 +15,15 @@ listingRouter.get('/new', isLoggedIn, listingNewRoute);
 listingRouter.get('/:id', listingShowRoute);
 
 // Edit Page
-listingRouter.get('/:id/edit', isLoggedIn, listingEditPage);
+listingRouter.get('/:id/edit', isLoggedIn, isOwner, listingEditPage);
 
 // Add Listing Route
 listingRouter.post('/', isLoggedIn, validateListing, createListing);
 
 // Update Route
-listingRouter.put('/:id', isLoggedIn, validateListing, updateListing);
+listingRouter.put('/:id', isLoggedIn, isOwner, validateListing, updateListing);
 
 // Delete Route
-listingRouter.delete('/:id', isLoggedIn, deleteListing);
+listingRouter.delete('/:id', isLoggedIn, isOwner, deleteListing);
 
 module.exports = listingRouter;

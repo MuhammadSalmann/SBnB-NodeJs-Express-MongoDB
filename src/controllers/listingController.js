@@ -16,11 +16,19 @@ const listingNewRoute = (req, res) => {
 const listingShowRoute = wrapAsync(async (req, res) => {
     const {id} = req.params;
     // console.log(req.params.id);
-    const listing = await Listing.findById(id).populate('reviews');
+    const listing = await Listing.findById(id)
+    .populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        },
+    })
+    .populate('owner');
     if(!listing){
         req.flash('error', 'Cannot find that listing');
         return res.redirect('/listings');
     }
+    // console.log(listing);
     res.render('listings/show.ejs', {listing});
 });
 
@@ -40,6 +48,7 @@ const createListing = wrapAsync(async (req, res, next) => {
     //const {title, description, price, location, country} = req.body;
     //console.log(req.body.listing);
     const listing = new Listing(req.body.listing);
+    listing.owner = req.user._id;  // Add the owner to the listing
     await listing.save();
     req.flash('success', 'New Listing Added');
     res.redirect('/listings');
