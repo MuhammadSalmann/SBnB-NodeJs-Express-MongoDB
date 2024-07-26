@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') %> <!-- By Ejs-Mate-->
 
     <body>
-        <h3>All Listings</h3>
+        <h3 class="text-center mb-3">All Listings</h3>
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
             <% for (const listing of allListings) { %>
                 <a href="/listings/<%= listing._id %>" class="listing-tile">

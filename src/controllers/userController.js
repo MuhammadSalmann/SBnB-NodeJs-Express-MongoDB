@@ -13,8 +13,11 @@ const signup = wrapAsync(async (req, res) => {
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         console.log(registeredUser);
-        req.flash('success', 'Welcome to SBnB!');
-        res.redirect('/listings');
+        req.login(registeredUser, err => {
+            if (err) return next(err);
+            req.flash('success', 'Welcome to SBnB!');
+            res.redirect('/listings');
+        });
     } catch (e) {
         req.flash('error', e.message);
         res.redirect('/signup');
@@ -29,7 +32,17 @@ const loginPage = (req, res) => {
 // Login Route
 const login = (req, res) => {
     req.flash('success', 'Welcome back!');
-    res.redirect('/listings');
+    const redirectURL = res.locals.redirectURL || '/listings';
+    res.redirect(redirectURL);
 }
 
-module.exports = { signupPage, signup, loginPage, login };
+// Logout Route
+const logout = (req, res, next) => {
+    req.logout(err => {
+        if (err) return next(err);
+        req.flash('success', 'You are Logged Out!');
+        res.redirect('/listings');
+    });
+}
+
+module.exports = { signupPage, signup, loginPage, login, logout };
