@@ -5,7 +5,7 @@
             <br>
             <h2><%= listing.title %></h2>
             <div class="card listing-card">
-                <img src="<%= listing.image %>" class="card-img-top" alt="listing-img">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-img">
                 <div class="card-body mt-2">
                     <p class="card-text"> Owned by: <i><%= listing.owner.username %></i> </p>
                     <p class="card-text">  <%= listing.description %> </p>

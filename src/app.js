@@ -1,4 +1,7 @@
-require('dotenv').config();
+if(process.env.NODE_ENV !== 'production') { // This is for using the .env file in development mode
+    require('dotenv').config();
+}
+
 // Imports
 const express = require('express');
 const app = express();

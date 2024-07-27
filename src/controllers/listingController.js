@@ -40,15 +40,23 @@ const listingEditPage = wrapAsync(async (req, res) => {
         req.flash('error', 'Cannot find that listing');
         return res.redirect('/listings');
     }
-    res.render('listings/edit.ejs', {listing});
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace('/upload', '/upload/w_200,h_200,c_thumb,g_face,r_max,b_rgb:262c35');
+    res.render('listings/edit.ejs', {listing, originalImageUrl});
 });
 
 // Add Listing Route
 const createListing = wrapAsync(async (req, res, next) => {
     //const {title, description, price, location, country} = req.body;
     //console.log(req.body.listing);
+
     const listing = new Listing(req.body.listing);
     listing.owner = req.user._id;  // Add the owner to the listing
+    if(typeof req.file !== 'undefined'){
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename }; // Add the image to the listing
+    }
     await listing.save();
     req.flash('success', 'New Listing Added');
     res.redirect('/listings');
@@ -58,7 +66,14 @@ const createListing = wrapAsync(async (req, res, next) => {
 const updateListing = wrapAsync(async (req, res) => {
     const {id} = req.params;
     //console.log({...req.body.listing});
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    if(typeof req.file !== 'undefined'){
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename }; // Add the image to the listing
+        await listing.save();
+    }
     req.flash('success', 'Listing Updated');
     res.redirect(`/listings/${id}`);
 });
