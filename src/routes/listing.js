@@ -5,25 +5,16 @@ const {listingIndexRoute, listingNewRoute, listingShowRoute, listingEditPage, cr
 const { isLoggedIn } = require('../middlewares/isLoggedIn');
 const isOwner = require('../middlewares/isOwner');
 
-//Index Route
-listingRouter.get('/', listingIndexRoute);
+listingRouter.route('/')
+.get(listingIndexRoute)
+.post(isLoggedIn, validateListing, createListing);
 
-// New Listing Route
-listingRouter.get('/new', isLoggedIn, listingNewRoute);
+listingRouter.route('/new')  
+.get(isLoggedIn, listingNewRoute);
 
-//Show Route
-listingRouter.get('/:id', listingShowRoute);
-
-// Edit Page
-listingRouter.get('/:id/edit', isLoggedIn, isOwner, listingEditPage);
-
-// Add Listing Route
-listingRouter.post('/', isLoggedIn, validateListing, createListing);
-
-// Update Route
-listingRouter.put('/:id', isLoggedIn, isOwner, validateListing, updateListing);
-
-// Delete Route
-listingRouter.delete('/:id', isLoggedIn, isOwner, deleteListing);
+listingRouter.route('/:id')
+.get(listingShowRoute)
+.put(isLoggedIn, isOwner, validateListing, updateListing)
+.delete(isLoggedIn, isOwner, deleteListing);
 
 module.exports = listingRouter;

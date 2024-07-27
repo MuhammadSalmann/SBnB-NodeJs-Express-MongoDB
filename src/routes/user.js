@@ -5,10 +5,14 @@ const { signupPage, signup, loginPage, login, logout } = require('../controllers
 const user = require('../models/user');
 const { saveRedirectURL } = require('../middlewares/isLoggedIn');
 
-userRouter.get('/signup', signupPage);
-userRouter.post('/signup', signup);
-userRouter.get('/login', loginPage);
-userRouter.post('/login', saveRedirectURL, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), login);
+userRouter.route('/signup')
+.get(signupPage)
+.post(signup);
+
+userRouter.route('/login')
+.get(loginPage)
+.post(saveRedirectURL, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), login);
+
 userRouter.get('/logout', logout);
 
 module.exports = userRouter;
