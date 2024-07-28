@@ -173,3 +173,30 @@ body {
     padding: 5px 50px !important;
     font-size: 1rem !important;
 }
+
+@media (max-width: 990px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .filter-container .child-1 {
+        margin-bottom: 1rem;
+    }
+    .filter-container .child-2 {
+        margin-bottom: 1rem;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .filter-container .child-1 {
+        flex-direction: column;
+    }
+    .filter {
+        margin: 20px 0 20px 0;
+    }
+    .filter-container button {
+        margin-top: 1rem;
+    }
+}

@@ -11,6 +11,7 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
 const Session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -24,9 +25,23 @@ const userRouter = require('./routes/user');
 // Database Connection
 require('./db')();
 
+// Mongo Store Configuration
+const store = MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    touchAfter: 24 * 3600,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+});
+
+store.on('error', (e) => {
+    console.log('Session Store Error', e);
+});
+
 // Session Configuration
 const sessionConfig = {
-    secret:'Thisisasecret',
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
