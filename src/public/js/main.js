@@ -14,3 +14,15 @@
         }, false)
       })
   })()
+
+  // Tax info switch
+  document.getElementById('flexSwitchCheckDefault').addEventListener('change', () => {
+    let taxInfo = document.querySelectorAll('.tax-info');
+    taxInfo.forEach((tax) => {
+        if (tax.style.display === 'inline') {
+            tax.style.display = 'none';
+        } else {
+            tax.style.display = 'inline';
+        }
+    });
+});

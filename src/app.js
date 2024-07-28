@@ -59,11 +59,6 @@ app.use('/', (req, res, next) => {
     next();
 });
 
-// Home Route
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
