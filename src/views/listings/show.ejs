@@ -1,4 +1,9 @@
 <% layout('/layouts/boilerplate') %>  
+<script> 
+    const mapToken = '<%= process.env.MAP_TOKEN %>';
+    //const listing = <%- JSON.stringify(listing) %>; Works as well
+    const listing = JSON.parse('<%- JSON.stringify(listing) %>');
+</script>
 <body>
     <div class="row">
         <div class="col-8 offset-2">
@@ -58,23 +63,32 @@
                 </form>
             <% } %>
             <hr>
-            <h3>All Reviews</h3>
-            <div class="row">
-                <% for (const review of listing.reviews) { %>
-                    <div class="card col-5 ms-3 mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">@<%= review.author.username %></h5>
-                            <p class="starability-result" data-rating="<%= review.rating %>"></p>
-                            <p class="card-title"><%= review.comment %></p>
+            <% if(listing.reviews.length > 0) { %>
+                <h4><b>All Reviews</b></h4>
+                <div class="row">
+                    <% for (const review of listing.reviews) { %>
+                        <div class="card col-5 ms-3 mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@<%= review.author.username %></h5>
+                                <p class="starability-result" data-rating="<%= review.rating %>"></p>
+                                <p class="card-title"><%= review.comment %></p>
+                            </div>
+                            <% if ( currentUser && currentUser._id.equals(review.author._id) ) { %>
+                            <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <button class="btn btn-sm btn-dark">Delete</button>
+                            </form>
+                            <% } %>
                         </div>
-                        <% if ( currentUser && currentUser._id.equals(review.author._id) ) { %>
-                        <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                            <button class="btn btn-sm btn-dark">Delete</button>
-                        </form>
-                        <% } %>
-                    </div>
-                <% } %>
-            </div>
+                    <% } %>
+                </div>
+                <hr>
+            <% } %>
+        </div>
+        <div class="col-8 offset-2">
+            <h2>Where you'll be</h2>
+            <div id="map"></div>
         </div>
     </div>
 </body>
+
+<script src="/js/map.js"></script>

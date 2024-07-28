@@ -41,6 +41,18 @@ const listingSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    // GeoJSON( MongoDB supports GeoJSON objects as values of geospatial queries)
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     }
 });
 

@@ -97,3 +97,9 @@ body {
 .btn-cont a {
     margin-right: 1rem;
 }
+
+/* MAp */
+#map { 
+    height: 400px; 
+    width: 100%;
+ }
