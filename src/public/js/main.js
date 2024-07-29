@@ -38,7 +38,7 @@ document.querySelector('.search-input').addEventListener('keyup', (e) => {
     for (let i = 0; i < listing.length; i++) {
       let title = listing[i].querySelector('.card-text b').innerText.toLowerCase();
       if (title.includes(input)) {
-        listing[i].parentElement.style.display = 'block';
+        listing[i].parentElement.style.display = 'flex';
       } else {
         listing[i].parentElement.style.display = 'none';
       }

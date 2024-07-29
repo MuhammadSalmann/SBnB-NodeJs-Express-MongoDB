@@ -215,7 +215,9 @@ body {
     .filter-container .child-2 {
         margin-bottom: 1rem;
     }
-    
+    .SBnB-btn {
+        margin: 1rem 0;
+    }
 }
 
 @media (max-width: 768px) {
