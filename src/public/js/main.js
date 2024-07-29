@@ -26,3 +26,22 @@
         }
     });
 });
+
+// Search Functionality
+document.querySelector('.search-input').addEventListener('keyup', (e) => {
+  let input = e.target.value.toLowerCase();
+  let listing = document.getElementsByClassName('listing-card');  
+  const searchBtn = document.querySelector('.search-btn');
+
+  searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    for (let i = 0; i < listing.length; i++) {
+      let title = listing[i].querySelector('.card-text b').innerText.toLowerCase();
+      if (title.includes(input)) {
+        listing[i].parentElement.style.display = 'block';
+      } else {
+        listing[i].parentElement.style.display = 'none';
+      }
+    }
+  });
+});
