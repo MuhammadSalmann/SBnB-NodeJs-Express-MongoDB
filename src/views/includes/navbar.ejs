@@ -1,26 +1,29 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-2x fa-compass"></i></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="/listings">Explore</a>
+                <a class="nav-link SBnB-btn" href="/listings">Explore</a>
             </div>
             <form class="d-flex ms-auto">
                 <input class="form-control me-2 search-input" type="search" placeholder="Search Destinations" aria-label="Search">
                 <button class="search-btn"><i class="fa fa-magnifying-glass"></i>Search</button>
               </form>
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/listings/new">SBnB Your Home</a>
+                <a class="nav-link me-5 SBnB-btn" href="/listings/new">SBnB Your Home</a>
                 <% if (!currentUser) { %>
-                    <a class="nav-link" href="/signup"><b>Sign Up</b></a>
-                    <a class="nav-link" href="/login"><b>Sign In</b></a>
+                    <h3 class="fa-solid fa-user me-3 mt-2" data-bs-toggle="collapse" data-bs-target="#cred" aria-controls="cred" aria-expanded="false" aria-label="Toggle navigation"></h3>
+                    <div class="collapse d-flex flex-column">
+                        <a class="nav-link collapse btn btn-success login-btn" id="cred" href="/signup"><b>Sign Up</b></a>
+                        <a class="nav-link collapse btn btn-success login-btn mt-2" id="cred" href="/login"><b>Sign In</b></a>
+                    </div>
                 <% } %>
                 <% if (currentUser) { %>
-                    <a class="nav-link" href="/logout"><b>Log Out</b></a> 
+                    <a class="nav-link" href="/logout"><h3 class="fa-solid fa-right-from-bracket me-3"></h3></a> 
                 <% } %>
             </div>
         </div>
