@@ -12,11 +12,11 @@
             <div class="card listing-card">
                 <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-img">
                 <div class="card-body mt-2">
-                    <p class="card-text"> Owned by: <i><%= listing.owner.username %></i> </p>
+                    <p class="card-text"> Owned by: <b><i><%= listing.owner.username %></i></b> </p>
                     <p class="card-text">  <%= listing.description %> </p>
                     <p class="card-text"> <b>Rs <%= listing.price.toLocaleString("en-PK") %></b> </p>   
-                    <p class="card-text">  <%= listing.location %> </p>
-                    <p class="card-text">  <%= listing.country %> </p>
+                    <p class="card-text"> <b>Country :</b> <%= listing.location %> </p>
+                    <p class="card-text"> <b>Location :</b> <%= listing.country %> </p>
                     </p>
                 </div>
             </div>
