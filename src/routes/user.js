@@ -2,7 +2,6 @@ const express = require('express');
 const userRouter = express.Router();
 const passport = require('passport');
 const { signupPage, signup, loginPage, login, logout } = require('../controllers/userController');
-const user = require('../models/user');
 const { saveRedirectURL } = require('../middlewares/isLoggedIn');
 
 userRouter.route('/signup')

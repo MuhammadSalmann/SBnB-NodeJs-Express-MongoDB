@@ -6,6 +6,6 @@ const { isLoggedIn } = require('../middlewares/isLoggedIn');
 const { isReviewAuthor } = require('../middlewares/isReviewAuthor');
 
 reviewRouter.post('/', isLoggedIn, validateReview, addReview);
-reviewRouter.delete('/:reviewId', isLoggedIn, isReviewAuthor,deleteReview);
+reviewRouter.delete('/:reviewId', isLoggedIn, isReviewAuthor, deleteReview);
 
 module.exports = reviewRouter;

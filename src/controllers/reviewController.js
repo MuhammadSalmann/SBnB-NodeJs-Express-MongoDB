@@ -17,7 +17,8 @@ const addReview = wrapAsync(async (req, res) => {
 
 const deleteReview = wrapAsync(async (req, res) => {
     const {id, reviewId} = req.params;
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    console.log(req.params);
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });  // this statement means remove the reviewId from the reviews array in the Listing
     await Review.findByIdAndDelete(reviewId);
     req.flash('success', 'Review Deleted');
     res.redirect(`/listings/${id}`);
