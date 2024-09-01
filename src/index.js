@@ -82,7 +82,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Welcome');
+    res.send('Welcome The Project the Running ... Go to /listings to see the listings');
 });
 
 // Routes
